@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dominoes – Jailhouse Rules</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app">
+
+    <!-- ── Header / Scoreboard ─────────────────────────────── -->
+    <header>
+      <h1>⬛ Dominoes</h1>
+
+      <div id="scoreboard">
+        <div class="score-box player-box">
+          <span class="score-label">You</span>
+          <span id="player-score" class="score-value">0</span>
+        </div>
+        <span class="score-sep">vs</span>
+        <div class="score-box computer-box">
+          <span class="score-label">Computer</span>
+          <span id="computer-score" class="score-value">0</span>
+        </div>
+      </div>
+
+      <div id="round-info">Round 1 · First to 250 pts</div>
+      <button id="new-game-btn">New Game</button>
+    </header>
+
+    <!-- ── Main Game Area ─────────────────────────────────── -->
+    <div id="game-area">
+
+      <!-- Computer hand (face-down) -->
+      <div id="computer-area" class="hand-area">
+        <div class="area-label">
+          Computer&nbsp;(<span id="computer-count">7</span>&nbsp;tiles)
+        </div>
+        <div id="computer-hand" class="hand"></div>
+      </div>
+
+      <!-- Board -->
+      <div id="board-container">
+        <div id="boneyard-display">
+          🦴&nbsp;Boneyard:&nbsp;<span id="boneyard-count">14</span>
+        </div>
+        <div id="board-scroll">
+          <div id="board"></div>
+        </div>
+      </div>
+
+      <!-- Player hand (face-up) -->
+      <div id="player-area" class="hand-area">
+        <div class="area-label">Your Hand</div>
+        <div id="player-hand" class="hand"></div>
+
+        <div id="action-buttons">
+          <button id="draw-btn"      disabled>Draw from Boneyard</button>
+          <button id="pass-btn"      disabled>Pass</button>
+          <button id="left-end-btn"  class="end-choice hidden">← Play Left&nbsp;(<span id="left-end-val">?</span>)</button>
+          <button id="right-end-btn" class="end-choice hidden">Play Right&nbsp;(<span id="right-end-val">?</span>)&nbsp;→</button>
+        </div>
+      </div>
+
+    </div><!-- /#game-area -->
+
+    <!-- Message bar -->
+    <div id="message-area">
+      <div id="message" class="message"></div>
+    </div>
+
+  </div><!-- /#app -->
+
+  <!-- ── Modal ──────────────────────────────────────────── -->
+  <div id="modal-overlay" class="hidden">
+    <div id="modal">
+      <h2 id="modal-title"></h2>
+      <div id="modal-body"></div>
+      <div id="modal-buttons">
+        <button id="modal-btn-primary"   class="modal-primary"></button>
+        <button id="modal-btn-secondary" class="modal-secondary hidden"></button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
