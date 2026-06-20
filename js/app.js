@@ -316,14 +316,15 @@ function computerTurn() {
     state.passCount = 0;
 
     setMessage(`Computer played ${tile}.`, 'info');
-    render();
 
     if (state.computerHand.length === 0) {
+      render();
       setTimeout(() => endHand('computer_out'), 400);
       return;
     }
 
     state.turn = 'player';
+    render();
     updateButtons();
   } else if (state.boneyard.length > 0) {
     const tile = state.boneyard.pop();
