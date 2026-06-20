@@ -145,6 +145,16 @@ function scoreToNearestFive(rawPoints) {
   return Math.max(5, rawPoints - (rawPoints % 5));
 }
 
+function orientTileForEnd(tile, end) {
+  if (!state.board || state.board.isEmpty) return tile;
+
+  if (end === 'left') {
+    return tile.b === state.board.leftEnd ? tile : tile.flipped();
+  }
+
+  return tile.a === state.board.rightEnd ? tile : tile.flipped();
+}
+
 function clearPendingSelection() {
   state.pendingTile = null;
   state.hoveredEnd = null;
@@ -204,7 +214,8 @@ function startHand() {
 }
 
 function onTileClick(tile) {
-  if (state.turn !== 'player' || state.phase !== 'hand') return;
+  if (state.turn !== 'player') return;
+  if (state.phase !== 'hand' && state.phase !== 'end_selection') return;
 
   if (state.pendingTile === tile) {
     clearPendingSelection();
@@ -456,12 +467,29 @@ function renderBoard() {
   const selectedTile = state.pendingTile;
   const validEnds = selectedTile ? state.board.playableEnds(selectedTile) : [];
   const showTargets = state.phase === 'end_selection' && selectedTile;
+  const previewEnd = state.hoveredEnd && validEnds.includes(state.hoveredEnd)
+    ? state.hoveredEnd
+    : validEnds.length === 1
+      ? validEnds[0]
+      : null;
 
   boardEl.appendChild(makeBoardDropZone('left', validEnds, showTargets));
+
+  if (previewEnd === 'left') {
+    const preview = makeTileEl(orientTileForEnd(selectedTile, 'left'), false, false);
+    preview.classList.add('preview');
+    boardEl.appendChild(preview);
+  }
 
   state.board.chain.forEach(tile => {
     boardEl.appendChild(makeTileEl(tile, false, false));
   });
+
+  if (previewEnd === 'right') {
+    const preview = makeTileEl(orientTileForEnd(selectedTile, 'right'), false, false);
+    preview.classList.add('preview');
+    boardEl.appendChild(preview);
+  }
 
   boardEl.appendChild(makeBoardDropZone('right', validEnds, showTargets));
 }

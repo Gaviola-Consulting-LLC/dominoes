@@ -158,7 +158,7 @@ button:disabled {
 #board {
   display: flex;
   flex-wrap: nowrap;
-  gap: 3px;
+  gap: 8px;
   align-items: center;
   min-height: 60px;
   padding: 4px 2px;
@@ -172,20 +172,31 @@ button:disabled {
   display: block;
 }
 
-/* End-of-chain labels inside the board row */
-.end-label {
+/* End-of-chain controls inside the board row */
+.board-drop-zone {
   flex-shrink: 0;
-  font-size: 0.78rem;
+  min-width: 104px;
+  padding: 10px 12px;
+  border: 2px dashed rgba(255,255,255,0.22);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.7);
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.82rem;
   font-weight: 700;
-  padding: 4px 8px;
-  border-radius: 6px;
-  background: rgba(255,255,255,0.1);
   white-space: nowrap;
 }
-.end-label.active {
-  background: rgba(255, 215, 0, 0.25);
-  border: 2px solid gold;
+.board-drop-zone.active {
+  border-color: rgba(255, 215, 0, 0.92);
+  background: rgba(255, 215, 0, 0.2);
+  color: #fff7c2;
   animation: glow 0.9s ease-in-out infinite alternate;
+}
+.board-drop-zone.hovered,
+.board-drop-zone:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: rgba(255, 215, 0, 0.3);
 }
 @keyframes glow {
   from { box-shadow: 0 0 4px gold; }
@@ -227,6 +238,13 @@ button:disabled {
   border-color: gold;
   box-shadow: 0 0 14px rgba(255,215,0,0.8), 2px 3px 6px rgba(0,0,0,0.4);
   transform: translateY(-5px);
+}
+
+.domino.preview {
+  opacity: 0.72;
+  border-style: dashed;
+  border-color: rgba(255, 215, 0, 0.95);
+  box-shadow: 0 0 14px rgba(255,215,0,0.4);
 }
 
 /* Computer's face-down tiles */
