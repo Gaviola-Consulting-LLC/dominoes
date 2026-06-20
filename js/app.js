@@ -1,5 +1,5 @@
 /**
- * Dominoes – Jailhouse Rules
+ * Dominoes - Jailhouse Rules
  *
  * Jailhouse rules:
  *  • You MUST play a tile if you are able to.
@@ -174,7 +174,7 @@ function startHand() {
   const cd = highestDouble(state.computerHand);
 
   let firstTile, firstPlayer;
-  if (pd && (!cd || pd.a >= cd.a)) {
+  if (pd && (!cd || pd.a > cd.a)) {
     firstTile = pd;  firstPlayer = 'player';
   } else if (cd) {
     firstTile = cd;  firstPlayer = 'computer';
@@ -350,16 +350,23 @@ function bestComputerTile(playable) {
 }
 
 /**
- * When a tile can play on either end, pick the end whose exposed value appears
- * fewer times in the opponent's (player's) hand — harder for the player to match.
+ * When a tile can play on either end, pick the end that leaves the computer
+ * with the most future options. Uses the computer's own hand only (no peeking
+ * at the player's tiles).
  */
 function pickBestEnd(tile) {
-  const leftCount  = countValue(state.playerHand, state.board.leftEnd);
-  const rightCount = countValue(state.playerHand, state.board.rightEnd);
-  // After playing on left, the new left end changes; similarly for right.
-  // Heuristic: expose the value that the player holds fewer of.
-  if (leftCount <= rightCount) return 'left';
-  return 'right';
+  const remaining = state.computerHand.filter(t => t !== tile);
+
+  // New exposed end value after placing on left vs right
+  const newLeftVal  = tile.b === state.board.leftEnd  ? tile.a : tile.b;
+  const newRightVal = tile.a === state.board.rightEnd ? tile.b : tile.a;
+
+  // Count distinct computer tiles that can play on the resulting board
+  const hasMatch = (t, v1, v2) => t.a === v1 || t.b === v1 || t.a === v2 || t.b === v2;
+  const countLeft  = remaining.filter(t => hasMatch(t, newLeftVal,          state.board.rightEnd)).length;
+  const countRight = remaining.filter(t => hasMatch(t, state.board.leftEnd, newRightVal)).length;
+
+  return countLeft >= countRight ? 'left' : 'right';
 }
 
 function countValue(hand, value) {
@@ -457,7 +464,7 @@ function renderBoard() {
   if (!state.board || state.board.isEmpty) {
     const empty = document.createElement('span');
     empty.className   = 'board-empty';
-    empty.textContent = 'Board is empty – waiting for the hand to begin…';
+    empty.textContent = 'Board is empty - waiting for the hand to begin...';
     boardEl.appendChild(empty);
     return;
   }
@@ -565,7 +572,7 @@ function updateButtons() {
     // Jailhouse rule: must play when able
     drawBtn.disabled = true;
     passBtn.disabled = true;
-    setMessage('Your turn – click a highlighted tile to play.', 'info');
+    setMessage('Your turn - click a highlighted tile to play.', 'info');
   } else if (hasBoneyard) {
     drawBtn.disabled = false;
     passBtn.disabled = true;
@@ -657,7 +664,7 @@ function closeModal() {
 function showWelcomeModal() {
   closeModal();
   showModal(
-    '⬛ Dominoes – Jailhouse Rules',
+    '⬛ Dominoes - Jailhouse Rules',
     `<strong>How to play:</strong><br>
      ● You <em>must</em> play a tile if you are able to.<br>
      ● If you cannot play, draw from the boneyard.<br>
