@@ -369,10 +369,6 @@ function pickBestEnd(tile) {
   return countLeft >= countRight ? 'left' : 'right';
 }
 
-function countValue(hand, value) {
-  return hand.reduce((n, t) => n + (t.a === value ? 1 : 0) + (t.b === value ? 1 : 0), 0);
-}
-
 // ─── End of a hand ──────────────────────────────────────────────────────────
 function endHand(reason) {
   state.phase = 'hand_over';
