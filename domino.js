@@ -399,7 +399,11 @@ function legalPlacements(tile, ends = getEnds(), spinnerValue = state.match.spin
     const match = state.match;
     ensureSpinnerBranches(match);
     normalizeMatchForCurrentRules(match);
-    if (!ends) return ['lead'];
+    if (!ends) {
+        const leadTile = requiredLeadTile(match);
+        if (!leadTile) return ['lead'];
+        return leadTile.id === tile.id ? ['lead'] : [];
+    }
     const canPlaceOnSide = side => isPlacementLegal(match, tile, side, ends, spinnerValue);
     const anchoredSpinnerChain = hasAnchoredSpinnerChain(match);
     const continuationSide = anchoredContinuationSide(match);
@@ -444,7 +448,7 @@ function orientTile(tile, side) {
 }
 
 function shouldRenderHorizontal(tile) {
-    return tile.left !== tile.right;
+    return true;
 }
 
 function spinnerTileHorizontal(side, tile) {
@@ -452,7 +456,14 @@ function spinnerTileHorizontal(side, tile) {
     if (side === 'up' || side === 'down') {
         return tile.left === tile.right;
     }
-    return tile.left !== tile.right;
+    return true;
+}
+
+function requiredLeadTile(match = state.match) {
+    if (!match || match.board.length) return null;
+    const hand = match.turn === 'computer' ? match.computerHand : match.humanHand;
+    const opening = highestOpeningTile(hand);
+    return opening ? opening.tile : null;
 }
 
 function normalizeMatchForCurrentRules(match) {
@@ -1072,7 +1083,7 @@ function renderBoard() {
                         <div class="spinner-cross">
                             <div class="spinner-arm spinner-arm-up">${spinnerBranchMarkup('up')}</div>
                             <div class="spinner-arm spinner-arm-left">${spinnerBranchMarkup('left')}</div>
-                            <div class="spinner-center"><div class="domino" aria-label="Spinner center ${formatTile(spinnerCenter)}"><div class="domino-half">${pipMarkup(spinnerCenter.left)}</div><div class="domino-half">${pipMarkup(spinnerCenter.right)}</div></div></div>
+                            <div class="spinner-center"><div class="domino domino-horizontal" aria-label="Spinner center ${formatTile(spinnerCenter)}"><div class="domino-half">${pipMarkup(spinnerCenter.left)}</div><div class="domino-half">${pipMarkup(spinnerCenter.right)}</div></div></div>
                             <div class="spinner-arm spinner-arm-right">${spinnerBranchMarkup('right')}</div>
                             <div class="spinner-arm spinner-arm-down">${spinnerBranchMarkup('down')}</div>
                         </div>
