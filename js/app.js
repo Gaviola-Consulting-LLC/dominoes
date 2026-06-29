@@ -130,9 +130,13 @@ function removeFromHand(hand, tile) {
   if (idx !== -1) hand.splice(idx, 1);
 }
 
+function isDoubleTile(tile) {
+  return !!tile && tile.a === tile.b;
+}
+
 function highestDouble(hand) {
   return hand
-    .filter(t => t.isDouble)
+    .filter(isDoubleTile)
     .reduce((best, t) => (!best || t.a > best.a ? t : best), null);
 }
 
@@ -348,7 +352,7 @@ function computerTurn() {
 }
 
 function bestComputerTile(playable) {
-  const doubles = playable.filter(t => t.isDouble);
+  const doubles = playable.filter(isDoubleTile);
   const pool    = doubles.length ? doubles : playable;
   return pool.reduce((best, t) => (t.pips > best.pips ? t : best));
 }
@@ -615,7 +619,7 @@ function makeTileEl(tile, faceDown = false, clickable = false) {
   el.className = 'domino';
   if (faceDown) el.classList.add('face-down');
   if (clickable) el.classList.add('playable');
-  if (tile && tile.isDouble) {
+  if (isDoubleTile(tile)) {
     el.classList.add('double');
     el.classList.add('domino-vertical');
   }
