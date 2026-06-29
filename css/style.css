@@ -295,6 +295,17 @@ button:disabled {
   margin: 0 1px;
 }
 
+/* Doubles are rendered vertically (perpendicular to the chain) */
+.domino.domino-vertical {
+  flex-direction: column;
+}
+
+.domino.domino-vertical .domino-divider {
+  width: 28px;
+  height: 2px;
+  margin: 1px 0;
+}
+
 /* Back pattern for face-down tiles */
 .domino-back {
   width: 80px;
