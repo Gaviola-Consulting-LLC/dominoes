@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Domino House</title>
+    <link rel="stylesheet" href="domino.css?v=20260628">
+</head>
+<body>
+    <div class="page-shell">
+        <header class="hero">
+            <div>
+                <p class="eyebrow">Online Domino Game</p>
+                <h1>Domino House</h1>
+                <p class="lede">Play a match against the computer with jailhouse rules, draw-until-playable turns, $5$-point scoring, and a $250$-point win condition.</p>
+            </div>
+            <div class="hero-actions">
+                <button id="newMatchBtn" class="btn btn-primary">New Match</button>
+                <button id="nextRoundBtn" class="btn btn-secondary" disabled>Next Round</button>
+            </div>
+        </header>
+
+        <main class="layout">
+            <section class="panel scoreboard">
+                <div class="score-card human">
+                    <span class="label">You</span>
+                    <strong id="humanScore">0</strong>
+                    <span id="humanHandCount" class="subtle">7 tiles</span>
+                </div>
+                <div class="score-card center">
+                    <span class="label">Round</span>
+                    <strong id="roundNumber">1</strong>
+                    <span id="turnLabel" class="subtle">Dealing...</span>
+                </div>
+                <div class="score-card computer">
+                    <span class="label">Computer</span>
+                    <strong id="computerScore">0</strong>
+                    <span id="computerHandCount" class="subtle">7 tiles</span>
+                </div>
+            </section>
+
+            <section class="panel board-panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Board</h2>
+                        <p id="boardHint" class="subtle">The highest double starts. If you cannot play, tiles draw from the boneyard until a legal move exists.</p>
+                    </div>
+                    <div class="board-meta">
+                        <span class="pill">Boneyard: <strong id="boneyardCount">0</strong></span>
+                        <span class="pill">Match target: <strong>250</strong></span>
+                    </div>
+                </div>
+                <div id="boardArea" class="board-area"></div>
+            </section>
+
+            <section class="panel hand-panel">
+                <div class="panel-head">
+                    <h2>Your Hand</h2>
+                    <span id="handHelp" class="subtle">Select a legal tile to play it.</span>
+                </div>
+                <div id="handArea" class="hand-area"></div>
+            </section>
+
+            <aside class="panel side-panel">
+                <section>
+                    <div class="panel-head compact">
+                        <h2>Match Log</h2>
+                    </div>
+                    <div id="logArea" class="log-area"></div>
+                </section>
+
+                <section class="rules-box">
+                    <h3>Rules</h3>
+                    <ul>
+                        <li>Double-six is the highest double.</li>
+                        <li>When you cannot move, the game draws from the boneyard until you can play.</li>
+                        <li>There is only one spinner, and both players play from that same spinner.</li>
+                        <li>Spinner arms open horizontal first (left and right), then vertical (up and down).</li>
+                        <li>Doubles count as double when scoring exposed ends.</li>
+                        <li>After both left and right spinner arms are occupied, the center spinner no longer counts for points.</li>
+                        <li>A tile is legal only when at least one pip matches the selected open side.</li>
+                        <li>Tiles played on spinner up/down are vertical unless the tile is a double.</li>
+                        <li>After each play, score only the exposed outside ends whenever their total is a multiple of 5.</li>
+                        <li>If the board is locked because neither player can move and the boneyard is empty, the player with fewer hand pips wins the opponent's exact hand pips.</li>
+                        <li>If a player goes out, they score the opponent's exact remaining hand pips.</li>
+                        <li>First to 250 wins the match.</li>
+                    </ul>
+                </section>
+            </aside>
+        </main>
+
+        <footer class="footer-note">
+            You can restart the match at any time. Refreshes also preserve the current match in your browser.
+        </footer>
+    </div>
+
+    <div id="modal" class="modal hidden">
+        <div class="modal-card">
+            <h2 id="modalTitle">Resume saved match?</h2>
+            <p id="modalText">A saved domino match was found in this browser.</p>
+            <div class="modal-actions">
+                <button id="resumeBtn" class="btn btn-primary">Resume</button>
+                <button id="discardBtn" class="btn btn-secondary">Start New</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="domino.js?v=20260628"></script>
+</body>
+</html>

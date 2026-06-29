@@ -1,0 +1,27 @@
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/domino"
+  to = "/domino.html"
+  status = 200
+
+[[redirects]]
+  from = "/dominoes"
+  to = "/domino.html"
+  status = 200
+
+[[headers]]
+  for = "/domino.html"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+[[headers]]
+  for = "/domino.css"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+[[headers]]
+  for = "/domino.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
