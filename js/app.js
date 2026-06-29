@@ -615,7 +615,10 @@ function makeTileEl(tile, faceDown = false, clickable = false) {
   el.className = 'domino';
   if (faceDown) el.classList.add('face-down');
   if (clickable) el.classList.add('playable');
-  if (tile && tile.isDouble) el.classList.add('double');
+  if (tile && tile.isDouble) {
+    el.classList.add('double');
+    el.classList.add('domino-vertical');
+  }
 
   if (faceDown) {
     el.innerHTML = '<div class="domino-back"></div>';
