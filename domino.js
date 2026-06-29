@@ -448,7 +448,7 @@ function orientTile(tile, side) {
 }
 
 function shouldRenderHorizontal(tile) {
-    return Boolean(tile);
+    return true;
 }
 
 function spinnerTileHorizontal(side, tile) {
